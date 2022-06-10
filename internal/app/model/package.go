@@ -12,22 +12,22 @@ type Package struct {
 	OfferCode    string `json:"offer_code"`
 }
 
-func (p Package) IsOfferValid() bool {
+func (p Package) IsOfferValid() (bool, float32) {
 	validOfferByCode := GetOfferByCode(p.OfferCode)
 
 	if validOfferByCode.IsNilOffer() {
-		return false
+		return false, 0
 	}
 
 	if !(p.DistanceInKm > validOfferByCode.Distance.Min && p.DistanceInKm < validOfferByCode.Distance.Max) {
-		return false
+		return false, 0
 	}
 
 	if !(p.Weight > validOfferByCode.Weight.Min && p.Weight < validOfferByCode.Weight.Max) {
-		return false
+		return false, 0
 	}
 
-	return true
+	return true, validOfferByCode.Discount
 }
 
 func (p Package) GetCost(baseDeliveryCost int, discount float32) float32 {

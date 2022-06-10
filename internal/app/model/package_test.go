@@ -30,7 +30,8 @@ func TestPackage_IsOfferValidShouldReturnTrueIfPackageWeightAndDistanceIsWithinR
 	}
 
 	for _, pkg := range testcases {
-		assert.True(t, pkg.IsOfferValid(), fmt.Sprintf("offer: weight = %d, distance = %d", pkg.Weight, pkg.DistanceInKm))
+		validity, _ := pkg.IsOfferValid()
+		assert.True(t, validity, fmt.Sprintf("offer: weight = %d, distance = %d", pkg.Weight, pkg.DistanceInKm))
 	}
 }
 
@@ -75,7 +76,8 @@ func TestPackage_IsOfferCodeValidShouldReturnFalseIfPackageWeightAndDistanceIsNo
 	}
 
 	for _, pkg := range testcases {
-		assert.False(t, pkg.IsOfferValid(), fmt.Sprintf("offer: weight = %d, distance = %d", pkg.Weight, pkg.DistanceInKm))
+		validity, _ := pkg.IsOfferValid()
+		assert.False(t, validity, fmt.Sprintf("offer: weight = %d, distance = %d", pkg.Weight, pkg.DistanceInKm))
 	}
 }
 
@@ -129,9 +131,6 @@ func TestPackage_GetCost(t *testing.T) {
 }
 
 func getDiscountByOffer(pkg model.Package) float32 {
-	if !pkg.IsOfferValid() {
-		return float32(0)
-	}
-	offer := model.GetOfferByCode(pkg.OfferCode)
-	return offer.Discount
+	_, discount := pkg.IsOfferValid()
+	return discount
 }
