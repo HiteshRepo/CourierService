@@ -7,6 +7,20 @@ type Package struct {
 	OfferCode    string `json:"offer_code"`
 }
 
-func (p Package) IsOfferCodeValid() bool {
-	return !GetOfferByCode(p.OfferCode).IsNilOffer()
+func (p Package) IsOfferValid() bool {
+	validOfferByCode := GetOfferByCode(p.OfferCode)
+
+	if validOfferByCode.IsNilOffer() {
+		return false
+	}
+
+	if !(p.DistanceInKm > validOfferByCode.Distance.Min && p.DistanceInKm < validOfferByCode.Distance.Max) {
+		return false
+	}
+
+	if !(p.Weight > validOfferByCode.Weight.Min && p.Weight < validOfferByCode.Weight.Max) {
+		return false
+	}
+
+	return true
 }
