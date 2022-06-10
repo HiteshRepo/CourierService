@@ -78,3 +78,60 @@ func TestPackage_IsOfferCodeValidShouldReturnFalseIfPackageWeightAndDistanceIsNo
 		assert.False(t, pkg.IsOfferValid(), fmt.Sprintf("offer: weight = %d, distance = %d", pkg.Weight, pkg.DistanceInKm))
 	}
 }
+
+func TestPackage_GetCost(t *testing.T) {
+	baseDeliveryPrice := 100
+	testcases := map[string]map[string]interface{}{
+		"tc1": {
+			"pkg": model.Package{
+				Id:           "PKG1",
+				Weight:       145,
+				DistanceInKm: 105,
+				OfferCode:    "OFR003",
+			},
+			"expectedCost": float32(1971.25),
+		},
+		"tc2": {
+			"pkg": model.Package{
+				Id:           "PKG2",
+				Weight:       190,
+				DistanceInKm: 150,
+				OfferCode:    "OFR001",
+			},
+			"expectedCost": float32(2475),
+		},
+		"tc3": {
+			"pkg": model.Package{
+				Id:           "PKG3",
+				Weight:       240,
+				DistanceInKm: 55,
+				OfferCode:    "OFR002",
+			},
+			"expectedCost": float32(2580.75),
+		},
+		"tc4": {
+			"pkg": model.Package{
+				Id:           "PKG4",
+				Weight:       240,
+				DistanceInKm: 45,
+				OfferCode:    "OFR002",
+			},
+			"expectedCost": float32(2725),
+		},
+	}
+
+	for _, tc := range testcases {
+		pkg := tc["pkg"].(model.Package)
+		expectedCost := tc["expectedCost"].(float32)
+		actualCost := pkg.GetCost(baseDeliveryPrice, getDiscountByOffer(pkg))
+		assert.Equal(t, expectedCost, actualCost)
+	}
+}
+
+func getDiscountByOffer(pkg model.Package) float32 {
+	if !pkg.IsOfferValid() {
+		return float32(0)
+	}
+	offer := model.GetOfferByCode(pkg.OfferCode)
+	return offer.Discount
+}

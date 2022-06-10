@@ -1,5 +1,10 @@
 package model
 
+const (
+	WeightMultiplier = 10
+	DistanceMultiplier = 5
+)
+
 type Package struct {
 	Id           string `json:"id"`
 	Weight       int    `json:"weight"`
@@ -23,4 +28,9 @@ func (p Package) IsOfferValid() bool {
 	}
 
 	return true
+}
+
+func (p Package) GetCost(baseDeliveryCost int, discount float32) float32 {
+	costWithoutDiscount := baseDeliveryCost + (p.Weight * WeightMultiplier) + (p.DistanceInKm * DistanceMultiplier)
+	return float32(costWithoutDiscount) * (1 - discount)
 }
