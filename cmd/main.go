@@ -66,7 +66,7 @@ func main() {
 		packages = append(packages, pkg)
 	}
 
-	inputPkgDetails := model.InputFormat{
+	inputPkgDetails := model.PackageInputFormat{
 		BaseDeliveryCost: baseDeliveryCost,
 		NoOfPackages:     noOfPackages,
 		Packages:         packages,

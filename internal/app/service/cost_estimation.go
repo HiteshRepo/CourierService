@@ -9,8 +9,8 @@ func ProvideCostEstimationService() CostEstimation {
 }
 
 
-func (ce CostEstimation) CalculateAllPackagesCost(input model.InputFormat) model.OutputFormat {
-	output := model.OutputFormat{}
+func (ce CostEstimation) CalculateAllPackagesCost(input model.PackageInputFormat) model.PackageOutputFormat {
+	output := model.PackageOutputFormat{}
 	packageTracker := make(map[string]bool)
 
 	for _,pkg := range input.Packages {

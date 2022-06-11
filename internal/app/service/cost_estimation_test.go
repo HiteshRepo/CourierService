@@ -42,13 +42,13 @@ func TestCostEstimation_CalculateAllPackagesCost(t *testing.T) {
 			OfferCode:    "OFR002",
 		},
 	}
-	input := model.InputFormat{
+	input := model.PackageInputFormat{
 		BaseDeliveryCost: 100,
 		NoOfPackages:     4,
 		Packages:         packages,
 	}
 
-	expected := model.OutputFormat{Packages: []model.PackageOutput{
+	expected := model.PackageOutputFormat{Packages: []model.PackageOutput{
 		{
 			Id: "PKG1",
 			Discount: 103.75,

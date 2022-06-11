@@ -1,6 +1,6 @@
 package model
 
-type OutputFormat struct {
+type PackageOutputFormat struct {
 	Packages []PackageOutput
 }
 
