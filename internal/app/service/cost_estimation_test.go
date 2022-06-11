@@ -35,6 +35,12 @@ func TestCostEstimation_CalculateAllPackagesCost(t *testing.T) {
 			DistanceInKm: 45,
 			OfferCode:    "OFR002",
 		},
+		{
+			Id:           "PKG1",
+			Weight:       145,
+			DistanceInKm: 105,
+			OfferCode:    "OFR002",
+		},
 	}
 	input := model.InputFormat{
 		BaseDeliveryCost: 100,
