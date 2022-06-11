@@ -91,7 +91,7 @@ func TestPackage_GetCost(t *testing.T) {
 				DistanceInKm: 105,
 				OfferCode:    "OFR003",
 			},
-			"expectedCost": float32(1971.25),
+			"expectedCost":     float32(1971.25),
 			"expectedDiscount": float32(103.75),
 		},
 		"tc2": {
@@ -101,7 +101,7 @@ func TestPackage_GetCost(t *testing.T) {
 				DistanceInKm: 150,
 				OfferCode:    "OFR001",
 			},
-			"expectedCost": float32(2475),
+			"expectedCost":     float32(2475),
 			"expectedDiscount": float32(275),
 		},
 		"tc3": {
@@ -111,7 +111,7 @@ func TestPackage_GetCost(t *testing.T) {
 				DistanceInKm: 55,
 				OfferCode:    "OFR002",
 			},
-			"expectedCost": float32(2580.75),
+			"expectedCost":     float32(2580.75),
 			"expectedDiscount": float32(194.25),
 		},
 		"tc4": {
@@ -121,7 +121,7 @@ func TestPackage_GetCost(t *testing.T) {
 				DistanceInKm: 45,
 				OfferCode:    "OFR002",
 			},
-			"expectedCost": float32(2725),
+			"expectedCost":     float32(2725),
 			"expectedDiscount": float32(0),
 		},
 	}

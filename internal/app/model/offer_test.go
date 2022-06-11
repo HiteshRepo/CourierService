@@ -8,16 +8,16 @@ import (
 
 func TestGetOfferByCode(t *testing.T) {
 
-	testcases := map[string]map[string]interface{} {
+	testcases := map[string]map[string]interface{}{
 		"tc1": {
 			"offerCode": "OFR001",
 			"expected": model.Offer{
-				Id:       "OFR001",
+				Id: "OFR001",
 				Distance: model.Distance{
 					Min: 0,
 					Max: 200,
 				},
-				Weight:   model.Weight{
+				Weight: model.Weight{
 					Min: 70,
 					Max: 200,
 				},
@@ -28,12 +28,12 @@ func TestGetOfferByCode(t *testing.T) {
 		"tc2": {
 			"offerCode": "OFR002",
 			"expected": model.Offer{
-				Id:       "OFR002",
+				Id: "OFR002",
 				Distance: model.Distance{
 					Min: 50,
 					Max: 150,
 				},
-				Weight:   model.Weight{
+				Weight: model.Weight{
 					Min: 100,
 					Max: 250,
 				},
@@ -44,12 +44,12 @@ func TestGetOfferByCode(t *testing.T) {
 		"tc3": {
 			"offerCode": "OFR003",
 			"expected": model.Offer{
-				Id:       "OFR003",
+				Id: "OFR003",
 				Distance: model.Distance{
 					Min: 50,
 					Max: 250,
 				},
-				Weight:   model.Weight{
+				Weight: model.Weight{
 					Min: 10,
 					Max: 150,
 				},
@@ -58,7 +58,7 @@ func TestGetOfferByCode(t *testing.T) {
 		},
 	}
 
-	for _,tc := range testcases {
+	for _, tc := range testcases {
 		offerCode := tc["offerCode"].(string)
 		expected := tc["expected"].(model.Offer)
 		actual := model.GetOfferByCode(offerCode)
@@ -75,4 +75,3 @@ func TestOffer_IsNilOffer(t *testing.T) {
 	offer := model.Offer{}
 	assert.True(t, offer.IsNilOffer())
 }
-

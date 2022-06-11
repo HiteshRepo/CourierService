@@ -1,7 +1,7 @@
 package model
 
 const (
-	WeightMultiplier = 10
+	WeightMultiplier   = 10
 	DistanceMultiplier = 5
 )
 

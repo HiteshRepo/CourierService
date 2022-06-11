@@ -34,7 +34,7 @@ func main() {
 	}
 
 	packages := make([]model.Package, 0)
-	for i:=0; i<noOfPackages; i++ {
+	for i := 0; i < noOfPackages; i++ {
 		fmt.Println("Enter package info in the format: <pkg_id> <weight_in_kg> <distance_in_km> <offer_code>")
 		input, _ = reader.ReadString('\n')
 
@@ -75,7 +75,7 @@ func main() {
 	ceSvc := service.ProvideCostEstimationService()
 	output := ceSvc.CalculateAllPackagesCost(inputPkgDetails)
 
-	for _,pkg := range output.Packages {
+	for _, pkg := range output.Packages {
 		fmt.Printf("%s %s %s\n", pkg.Id, formatValue(pkg.Discount), formatValue(pkg.TotalCost))
 	}
 }
