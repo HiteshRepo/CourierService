@@ -19,11 +19,11 @@ func (p Package) IsOfferValid() (bool, float32) {
 		return false, 0
 	}
 
-	if !(p.DistanceInKm > validOfferByCode.Distance.Min && p.DistanceInKm < validOfferByCode.Distance.Max) {
+	if !(p.DistanceInKm >= validOfferByCode.Distance.Min && p.DistanceInKm <= validOfferByCode.Distance.Max) {
 		return false, 0
 	}
 
-	if !(p.Weight > validOfferByCode.Weight.Min && p.Weight < validOfferByCode.Weight.Max) {
+	if !(p.Weight >= validOfferByCode.Weight.Min && p.Weight <= validOfferByCode.Weight.Max) {
 		return false, 0
 	}
 
