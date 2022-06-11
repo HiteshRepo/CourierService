@@ -42,7 +42,28 @@ func TestCostEstimation_CalculateAllPackagesCost(t *testing.T) {
 		Packages:         packages,
 	}
 
-	expected := float32(9752)
+	expected := model.OutputFormat{Packages: []model.PackageOutput{
+		{
+			Id: "PKG1",
+			Discount: 103.75,
+			TotalCost: 1971.25,
+		},
+		{
+			Id: "PKG2",
+			Discount: 275,
+			TotalCost: 2475,
+		},
+		{
+			Id: "PKG3",
+			Discount: 194.25,
+			TotalCost: 2580.75,
+		},
+		{
+			Id: "PKG4",
+			Discount: 0,
+			TotalCost: 2725,
+		},
+	}}
 	actual := ceSvc.CalculateAllPackagesCost(input)
 
 	assert.Equal(t, expected, actual)

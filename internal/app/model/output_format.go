@@ -1,7 +1,7 @@
 package model
 
 type OutputFormat struct {
-	Packages []Package
+	Packages []PackageOutput
 }
 
 type PackageOutput struct {

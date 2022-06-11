@@ -92,6 +92,7 @@ func TestPackage_GetCost(t *testing.T) {
 				OfferCode:    "OFR003",
 			},
 			"expectedCost": float32(1971.25),
+			"expectedDiscount": float32(103.75),
 		},
 		"tc2": {
 			"pkg": model.Package{
@@ -101,6 +102,7 @@ func TestPackage_GetCost(t *testing.T) {
 				OfferCode:    "OFR001",
 			},
 			"expectedCost": float32(2475),
+			"expectedDiscount": float32(275),
 		},
 		"tc3": {
 			"pkg": model.Package{
@@ -110,6 +112,7 @@ func TestPackage_GetCost(t *testing.T) {
 				OfferCode:    "OFR002",
 			},
 			"expectedCost": float32(2580.75),
+			"expectedDiscount": float32(194.25),
 		},
 		"tc4": {
 			"pkg": model.Package{
@@ -119,14 +122,17 @@ func TestPackage_GetCost(t *testing.T) {
 				OfferCode:    "OFR002",
 			},
 			"expectedCost": float32(2725),
+			"expectedDiscount": float32(0),
 		},
 	}
 
 	for _, tc := range testcases {
 		pkg := tc["pkg"].(model.Package)
 		expectedCost := tc["expectedCost"].(float32)
-		actualCost := pkg.GetCost(baseDeliveryPrice, getDiscountByOffer(pkg))
+		expectedDiscount := tc["expectedDiscount"].(float32)
+		actualCost, actualDiscount := pkg.GetCost(baseDeliveryPrice, getDiscountByOffer(pkg))
 		assert.Equal(t, expectedCost, actualCost)
+		assert.Equal(t, expectedDiscount, actualDiscount)
 	}
 }
 

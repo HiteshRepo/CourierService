@@ -9,20 +9,30 @@ func ProvideCostEstimationService() CostEstimation {
 }
 
 
-func (ce CostEstimation) CalculateAllPackagesCost(input model.InputFormat) float32 {
+func (ce CostEstimation) CalculateAllPackagesCost(input model.InputFormat) model.OutputFormat {
+	output := model.OutputFormat{}
 	packageTracker := make(map[string]bool)
-	totalCost := float32(0)
+
 	for _,pkg := range input.Packages {
-		var cost float32
-		if offerApplied,ok := packageTracker[pkg.Id]; ok && offerApplied {
-			cost = pkg.GetCost(input.BaseDeliveryCost, 0)
+		var cost, discount, discountPercent float32
+		var offerApplied, ok, validity bool
+
+		if offerApplied,ok = packageTracker[pkg.Id]; ok && offerApplied {
+			cost, discount = pkg.GetCost(input.BaseDeliveryCost, 0)
 		} else {
-			validity, discount := pkg.IsOfferValid()
+			validity, discountPercent = pkg.IsOfferValid()
 			packageTracker[pkg.Id] = validity
-			cost = pkg.GetCost(input.BaseDeliveryCost, discount)
+			cost, discount = pkg.GetCost(input.BaseDeliveryCost, discountPercent)
 		}
-		totalCost += cost
+
+		pkgOut := model.PackageOutput{
+			Id:        pkg.Id,
+			Discount:  discount,
+			TotalCost: cost,
+		}
+
+		output.Packages = append(output.Packages, pkgOut)
 	}
 
-	return totalCost
+	return output
  }

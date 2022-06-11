@@ -30,7 +30,8 @@ func (p Package) IsOfferValid() (bool, float32) {
 	return true, validOfferByCode.Discount
 }
 
-func (p Package) GetCost(baseDeliveryCost int, discount float32) float32 {
+func (p Package) GetCost(baseDeliveryCost int, discountPercent float32) (float32, float32) {
 	costWithoutDiscount := baseDeliveryCost + (p.Weight * WeightMultiplier) + (p.DistanceInKm * DistanceMultiplier)
-	return float32(costWithoutDiscount) * (1 - discount)
+	discount := float32(costWithoutDiscount) * discountPercent
+	return float32(costWithoutDiscount) - discount, discount
 }
