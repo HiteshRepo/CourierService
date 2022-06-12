@@ -69,6 +69,6 @@ func TestDeliveryEstimationService_UpdateDeliveryEstimations(t *testing.T) {
 		"PKG5": float32(4.19),
 	}
 
-	actual := deSvc.UpdateDeliveryEstimations(packages, vehicles)
+	actual := deSvc.FetchDeliveryEstimations(packages, vehicles)
 	assert.Equal(t, expected, actual)
 }

@@ -16,7 +16,7 @@ func ProvideDeliveryEstimationService(pkgSortingSvc PackageSelectionService) Del
 	return DeliveryEstimationService{pkgSortingSvc: pkgSortingSvc}
 }
 
-func (des DeliveryEstimationService) UpdateDeliveryEstimations(pkgs []model.Package, vehicles []model.Vehicle) map[string]float32 {
+func (des DeliveryEstimationService) FetchDeliveryEstimations(pkgs []model.Package, vehicles []model.Vehicle) map[string]float32 {
 	outputPkgsMap := make(map[string]float32)
 
 	copyPkgs := make([]model.Package, len(pkgs))
@@ -36,7 +36,7 @@ func (des DeliveryEstimationService) UpdateDeliveryEstimations(pkgs []model.Pack
 
 		shipment := model.Shipment{Packages: selectedPkgs, Time: currTime}
 		vehicles[currVehicle].Shipments = append(vehicles[currVehicle].Shipments, shipment)
-		vehicles[currVehicle].NextAvailableTime = currTime + (des.formatValue(des.GetHighestShipmentDeliveryTime(vehicles[currVehicle].MaxSpeedLimit, shipment)) * 2)
+		vehicles[currVehicle].NextAvailableTime = currTime + (des.formatValue(des.getHighestShipmentDeliveryTime(vehicles[currVehicle].MaxSpeedLimit, shipment)) * 2)
 
 		copyPkgs = des.getRemainingPkgs(copyPkgs, selectedPkgs)
 		currVehicle += 1
@@ -64,7 +64,7 @@ func (des DeliveryEstimationService) UpdateDeliveryEstimations(pkgs []model.Pack
 	return outputPkgsMap
 }
 
-func (des DeliveryEstimationService) GetHighestShipmentDeliveryTime(maxSpeedLimit float32, shipment model.Shipment) float32 {
+func (des DeliveryEstimationService) getHighestShipmentDeliveryTime(maxSpeedLimit float32, shipment model.Shipment) float32 {
 	max := float32(0)
 	for _, p := range shipment.Packages {
 		currShipmentTime := float32(p.DistanceInKm) / maxSpeedLimit
