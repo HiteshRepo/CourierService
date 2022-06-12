@@ -50,7 +50,7 @@ func TestSortPackages_ShouldSortInDescendingOrderByWeight(t *testing.T) {
 		},
 	}
 
-	pkgSortingSvc := service.ProvidePackageSortingService()
+	pkgSortingSvc := service.ProvidePackageSelectionService()
 	pkgSortingSvc.SortPackages(pkgs)
 
 	assert.Equal(t, expected, pkgs)
@@ -99,8 +99,65 @@ func TestSortPackages_ShouldSortInDescendingOrderByWeightAndIncreasingOrderByDis
 		},
 	}
 
-	pkgSortingSvc := service.ProvidePackageSortingService()
+	pkgSortingSvc := service.ProvidePackageSelectionService()
 	pkgSortingSvc.SortPackages(pkgs)
 
 	assert.Equal(t, expected, pkgs)
+}
+
+func TestPackageSorting_SelectPackages(t *testing.T) {
+	packages := []model.Package{
+		{
+			Id:           "PKG1",
+			Weight:       50,
+			DistanceInKm: 30,
+			OfferCode:    "OFR001",
+		},
+		{
+			Id:           "PKG2",
+			Weight:       75,
+			DistanceInKm: 125,
+			OfferCode:    "OFR008",
+		},
+		{
+			Id:           "PKG3",
+			Weight:       175,
+			DistanceInKm: 100,
+			OfferCode:    "OFR003",
+		},
+		{
+			Id:           "PKG4",
+			Weight:       110,
+			DistanceInKm: 60,
+			OfferCode:    "OFR002",
+		},
+		{
+			Id:           "PKG5",
+			Weight:       155,
+			DistanceInKm: 95,
+			OfferCode:    "",
+		},
+	}
+
+	limit := float32(200)
+
+	expected := []model.Package{
+		{
+			Id:           "PKG4",
+			Weight:       110,
+			DistanceInKm: 60,
+			OfferCode:    "OFR002",
+		},
+		{
+			Id:           "PKG2",
+			Weight:       75,
+			DistanceInKm: 125,
+			OfferCode:    "OFR008",
+		},
+	}
+
+	pkgSvc := service.ProvidePackageSelectionService()
+	actual := pkgSvc.SelectPackages(packages, limit)
+
+	assert.ElementsMatch(t, expected, actual)
 }
